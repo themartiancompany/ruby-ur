@@ -10,6 +10,7 @@
 
 pkgname=(
   'ruby'
+  'ruby-bundledgems'
   'ruby-docs'
 )
 pkgver=3.2.3
@@ -88,25 +89,9 @@ package_ruby() {
   )
   optdepends=(
     'tk: for Ruby/TK'
-
-    'ruby-debug'
-    'ruby-matrix'
-    'ruby-minitest'
-    'ruby-net-ftp'
-    'ruby-net-imap'
-    'ruby-net-pop'
-    'ruby-net-smtp'
-    'ruby-power_assert'
-    'ruby-prime'
-    'ruby-rake'
-    'ruby-rbs'
-    'ruby-rexml'
-    'ruby-rss'
-    'ruby-test-unit'
-    'ruby-typeprof'
+    'ruby-bundledgems'
   )
   replaces=(
-    'ruby-bundledgems'
     'ruby-stdlib'
 
     'ruby-abbrev'
@@ -330,6 +315,28 @@ package_ruby-docs() {
   make DESTDIR="${pkgdir}" install-doc install-capi
 
   install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
+}
+
+package_ruby-bundledgems() {
+  pkgdesc='Ruby Gems (third-party libraries) that are installed by default when Ruby is installed'
+
+  depends=(
+    'ruby-debug'
+    'ruby-matrix'
+    'ruby-minitest'
+    'ruby-net-ftp'
+    'ruby-net-imap'
+    'ruby-net-pop'
+    'ruby-net-smtp'
+    'ruby-power_assert'
+    'ruby-prime'
+    'ruby-rake'
+    'ruby-rbs'
+    'ruby-rexml'
+    'ruby-rss'
+    'ruby-test-unit'
+    'ruby-typeprof'
+  )
 }
 
 # vim: tabstop=2 shiftwidth=2 expandtab:
