@@ -24,21 +24,13 @@ provides=('libruby.so')
 options=('!emptydirs')
 source=(
   "https://cache.ruby-lang.org/pub/ruby/${pkgver:0:3}/ruby-${pkgver}.tar.xz"
-  "ruby_stop_so_duplication.patch"
-  "gemrc"
 )
-sha512sums=('d2a1897c2f4e801a28acb869322abfee76775115016252cecad90639485ed51deda1446cb16edb387f10a2e188602d646ef9b008b57f27bd745071277c535f3b'
-            '9919490bbf7dba979a1df7543e62eb3fca48e8a516e6b6ab0a73080952e1b58599b7f233259d122dc66bf93f032b434d70e0dd448a1cb86513f01acb51b2120e'
-            '8cafd14d414ee3c16aa94f79072bc6c100262f925dc1300e785846c3fabbbbffc1356b8e2223af5684e3340c55032d41231179ffa948bb12e01dbae0f4131911')
-b2sums=('e2cfa215b2cb910bac5f3b58edcdece91b21ffcfb6b4c183eec0c8502c320b78e7a8732c393b6e6a38dc9cfd81e129c00562d9be45f0deb36306ac81f96dcdc1'
-        '8f9687ece02c0558fe485f48d1ab80cee9afee588edc94042bca27b6fefcab6cbe653c767bea9494e15d22fd6af3ea9e69d6a867a0d3c47ffb0533e92dc99693'
-        'f90b5e5491dce39c9c1a0d473fdc896d67154fd781f5c7cca676d8081d3d9cef037d9c50cd8738cdf3b407300feacc9f05564424bfd9ec8ceacef58d24a399f6')
+sha512sums=('d2a1897c2f4e801a28acb869322abfee76775115016252cecad90639485ed51deda1446cb16edb387f10a2e188602d646ef9b008b57f27bd745071277c535f3b')
+b2sums=('e2cfa215b2cb910bac5f3b58edcdece91b21ffcfb6b4c183eec0c8502c320b78e7a8732c393b6e6a38dc9cfd81e129c00562d9be45f0deb36306ac81f96dcdc1')
 _rubyver="${pkgver:0:3}.0"
 
 prepare() {
   cd "ruby-${pkgver}"
-
-  patch --verbose --strip=1 --input="../ruby_stop_so_duplication.patch"
 
   # ignore test for openssl version 3.2.1
   sed -i "s/3.2.0/3.2.1/g" test/net/http/test_https.rb
@@ -216,7 +208,6 @@ package_ruby() {
 
   make DESTDIR="${pkgdir}" install-nodoc
 
-  install --verbose -D --mode=0644 ../gemrc "${pkgdir}/etc/gemrc"
   install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
   install --verbose -D --mode=0644 *.md --target-directory "${pkgdir}/usr/share/doc/${pkgname}"
 
