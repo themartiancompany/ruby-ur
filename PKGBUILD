@@ -90,7 +90,6 @@ package_ruby() {
     'ruby-base64'
     'ruby-benchmark'
     'ruby-bigdecimal'
-    'ruby-bundler'
     'ruby-cgi'
     'ruby-csv'
     'ruby-date'
@@ -99,7 +98,6 @@ package_ruby() {
     'ruby-digest'
     'ruby-drb'
     'ruby-english'
-    'ruby-erb'
     'ruby-etc'
     'ruby-fcntl'
     'ruby-fiddle'
@@ -111,7 +109,6 @@ package_ruby() {
     'ruby-io-nonblock'
     'ruby-io-wait'
     'ruby-ipaddr'
-    'ruby-irb'
     'ruby-json'
     'ruby-logger'
     'ruby-mutex_m'
@@ -119,7 +116,6 @@ package_ruby() {
     'ruby-open-uri'
     'ruby-psych'
     'ruby-racc'
-    'ruby-rdoc'
     'ruby-reline'
     'ruby-ruby2_keywords'
     'ruby-set'
@@ -127,14 +123,12 @@ package_ruby() {
     'ruby-time'
     'ruby-tmpdir'
     'ruby-uri'
-    'rubygems'
   )
   provides=(
     'ruby-abbrev'
     'ruby-base64'
     'ruby-benchmark'
     'ruby-bigdecimal'
-    'ruby-bundler'
     'ruby-cgi'
     'ruby-csv'
     'ruby-date'
@@ -143,7 +137,6 @@ package_ruby() {
     'ruby-digest'
     'ruby-drb'
     'ruby-english'
-    'ruby-erb'
     'ruby-error_highlight'
     'ruby-etc'
     'ruby-fcntl'
@@ -156,7 +149,6 @@ package_ruby() {
     'ruby-io-nonblock'
     'ruby-io-wait'
     'ruby-ipaddr'
-    'ruby-irb'
     'ruby-json'
     'ruby-logger'
     'ruby-mutex_m'
@@ -175,7 +167,6 @@ package_ruby() {
     'ruby-pstore'
     'ruby-psych'
     'ruby-racc'
-    'ruby-rdoc'
     'ruby-readline'
     'ruby-readline-ext'
     'ruby-reline'
@@ -201,7 +192,6 @@ package_ruby() {
     'ruby-weakref'
     'ruby-yaml'
     'ruby-zlib'
-    'rubygems'
   )
 
   cd "ruby-${pkgver}"
@@ -214,6 +204,8 @@ package_ruby() {
   # remove unrepreducible files
   rm --recursive --verbose \
     "${pkgdir}/usr/lib/ruby/gems/${_rubyver}/cache"
+
+  _remove_binary_default_gems
 
   # remove bundled gems - they are provided as dedicated packages
   ## debug
@@ -296,6 +288,45 @@ package_ruby() {
     "${pkgdir}/usr/bin/typeprof" \
     "${pkgdir}/usr/lib/ruby/gems/${_rubyver}"/gems/typeprof-* \
     "${pkgdir}/usr/lib/ruby/gems/${_rubyver}"/specifications/typeprof-*.gemspec
+}
+
+_remove_binary_default_gems() {
+  ## bundler
+  rm --recursive --verbose \
+    "${pkgdir}"/usr/bin/{bundle,bundler} \
+    "${pkgdir}/usr/lib/ruby/${_rubyver}"/bundler* \
+    "${pkgdir}/usr/lib/ruby/gems/${_rubyver}"/gems/bundler-* \
+    "${pkgdir}/usr/lib/ruby/gems/${_rubyver}"/specifications/default/bundler-*.gemspec
+
+  ## erb
+  rm --recursive --verbose \
+    "${pkgdir}/usr/bin/erb" \
+    "${pkgdir}/usr/lib/ruby/${_rubyver}"/erb* \
+    "${pkgdir}/usr/lib/ruby/${_rubyver}/x86_64-linux/erb" \
+    "${pkgdir}/usr/lib/ruby/gems/${_rubyver}"/gems/erb-* \
+    "${pkgdir}/usr/lib/ruby/gems/${_rubyver}"/specifications/default/erb-*.gemspec \
+    "${pkgdir}/usr/share/man/man1/erb.1"
+
+  ## irb
+  rm --recursive --verbose \
+    "${pkgdir}/usr/bin/irb" \
+    "${pkgdir}/usr/lib/ruby/${_rubyver}"/irb* \
+    "${pkgdir}/usr/lib/ruby/gems/${_rubyver}"/gems/irb-* \
+    "${pkgdir}/usr/lib/ruby/gems/${_rubyver}"/specifications/default/irb-*.gemspec \
+    "${pkgdir}/usr/share/man/man1/irb.1"
+
+  ## rdoc
+  rm --recursive --verbose \
+    "${pkgdir}"/usr/bin/{rdoc,ri} \
+    "${pkgdir}/usr/lib/ruby/${_rubyver}"/rdoc* \
+    "${pkgdir}/usr/lib/ruby/gems/${_rubyver}"/gems/rdoc-* \
+    "${pkgdir}/usr/lib/ruby/gems/${_rubyver}"/specifications/default/rdoc-*.gemspec \
+    "${pkgdir}/usr/share/man/man1/ri.1"
+
+  ## rubygems
+  rm --recursive --verbose \
+    "${pkgdir}/usr/bin/gem" \
+    "${pkgdir}/usr/lib/ruby/${_rubyver}"/rubygems*
 }
 
 package_ruby-docs() {
