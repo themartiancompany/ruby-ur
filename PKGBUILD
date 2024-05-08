@@ -13,27 +13,32 @@ pkgname=(
   'ruby-bundledgems'
   'ruby-docs'
 )
-pkgver=3.2.3
-pkgrel=1
+pkgver=3.2.4
+pkgrel=0
 arch=('x86_64')
 url='https://www.ruby-lang.org/en/'
 license=('BSD' 'custom')
 makedepends=('doxygen' 'graphviz' 'libyaml' 'rust' 'tk')
 checkdepends=('inetutils' 'procps-ng')
-provides=('libruby.so')
 options=('!emptydirs')
 source=(
   "https://cache.ruby-lang.org/pub/ruby/${pkgver:0:3}/ruby-${pkgver}.tar.xz"
+  ruby-3.2-openssl-3.3-fix.patch::https://github.com/ruby/ruby/commit/dd5e625d7bcb7dc849fdbc2ad8053f9c2724efb4.patch
 )
-sha512sums=('d2a1897c2f4e801a28acb869322abfee76775115016252cecad90639485ed51deda1446cb16edb387f10a2e188602d646ef9b008b57f27bd745071277c535f3b')
-b2sums=('e2cfa215b2cb910bac5f3b58edcdece91b21ffcfb6b4c183eec0c8502c320b78e7a8732c393b6e6a38dc9cfd81e129c00562d9be45f0deb36306ac81f96dcdc1')
+sha512sums=('fb0af37be4b6ad7b98ab9f8a508952238ee68b5828e3926331e4db52e2ebc1e6046f31114069322db0cd3bea7c9b82ace91c8564573ddcfa1f960877b237dbff'
+            '52351374fc9aa9c3576bfb4b62df1d1d8dbe7327270a4d1c5777d247a33d6e6528b08a537fc4c87d9d0cc54b4b9183848f6c54d54fc727871b3e511b7a73ddb7')
+b2sums=('9c2300a958b03528d51f0d74a069c8c538ca4009835d55377509a000bcfb43893a8a80d8fda57011e77c72e6283cb259281d5ba7b37444546e49f2a9ad515cf3'
+        '1ee662e57f9f29b4ab29b391b38b988a8b5c199e62c815353c3a47e6eceea910344c7d9a00512916e05b6404efddf941313dfdcb0bec027f7f668443309228b9')
 _rubyver="${pkgver:0:3}.0"
+_bootstrap=1
 
 prepare() {
   cd "ruby-${pkgver}"
 
-  # ignore test for openssl version 3.2.1
-  sed -i "s/3.2.0/3.2.1/g" test/net/http/test_https.rb
+  # ignore test_session_reuse_but_expire test for openssl version 3.3
+  sed -i "s/3.2./3.3./g" test/net/http/test_https.rb
+
+  patch -Np1 < ../ruby-3.2-openssl-3.3-fix.patch
 }
 
 build() {
@@ -125,6 +130,7 @@ package_ruby() {
     'ruby-uri'
   )
   provides=(
+    libruby.so
     'ruby-abbrev'
     'ruby-base64'
     'ruby-benchmark'
@@ -193,6 +199,17 @@ package_ruby() {
     'ruby-yaml'
     'ruby-zlib'
   )
+  bootstrap_gems=(
+    ruby-bundler
+    ruby-erb
+    ruby-irb
+    ruby-rdoc
+    ruby-rake
+    ruby-minitest
+    ruby-power_assert
+    ruby-test-unit
+    rubygems
+  )
 
   cd "ruby-${pkgver}"
 
@@ -205,8 +222,15 @@ package_ruby() {
   rm --recursive --verbose \
     "${pkgdir}/usr/lib/ruby/gems/${_rubyver}/cache"
 
-  _remove_binary_default_gems
+  if (( _bootstrap )); then
+    provides+=("${bootstrap_gems[@]}")
+  else
+    _remove_binary_default_gems
+    _remove_bundled_gems
+  fi
+}
 
+_remove_bundled_gems() {
   # remove bundled gems - they are provided as dedicated packages
   ## debug
   rm --recursive --verbose \
