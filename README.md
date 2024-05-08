@@ -7,6 +7,12 @@ phases: initial bootstrapping with a non-de-vendored Ruby, rebuilding a base
 set of Ruby packages using a production build, and finally, a comprehensive
 rebuild of all existing Ruby-dependent packages in the correct sequence.
 
+### bundled gem compatibility
+
+A list of compatible bundled gem versions for packaging can be found at
+<https://stdgems.org>. The de-vendored packages should make sure to be
+compatible to the major ruby version.
+
 ### bootstrap packages
 
 The bootstrapping phase starts with the creation of a minimal set of bootstrap
