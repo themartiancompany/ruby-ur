@@ -14,9 +14,10 @@ pkgname=(
   ruby-docs
 )
 pkgver=3.2.4
-pkgrel=0.1
-arch=(x86_64)
+pkgrel=0
+pkgdesc='An object-oriented language for quick and easy programming'
 url='https://www.ruby-lang.org/en/'
+arch=(x86_64)
 license=('BSD' 'custom')
 makedepends=(
   doxygen
@@ -47,8 +48,8 @@ sha512sums=('fb0af37be4b6ad7b98ab9f8a508952238ee68b5828e3926331e4db52e2ebc1e6046
 b2sums=('9c2300a958b03528d51f0d74a069c8c538ca4009835d55377509a000bcfb43893a8a80d8fda57011e77c72e6283cb259281d5ba7b37444546e49f2a9ad515cf3'
         '1ee662e57f9f29b4ab29b391b38b988a8b5c199e62c815353c3a47e6eceea910344c7d9a00512916e05b6404efddf941313dfdcb0bec027f7f668443309228b9')
 
-_rubyver="${pkgver:0:3}.0"
 _bootstrap=0
+_rubyver="${pkgver:0:3}.0"
 _bundled_gems=(
   debug
   matrix
@@ -131,7 +132,6 @@ check() {
 }
 
 package_ruby() {
-  pkgdesc='An object-oriented language for quick and easy programming'
   depends=(
     gdbm
     glibc
@@ -329,9 +329,7 @@ package_ruby-docs() {
   pkgdesc='Documentation files for ruby'
 
   cd "ruby-${pkgver}"
-
   make DESTDIR="${pkgdir}" install-doc install-capi
-
   install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
 }
 
