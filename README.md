@@ -2,16 +2,17 @@
 
 ## Bootstrap
 
-To transition to a new major version of Ruby, the process involves three main
-phases: initial bootstrapping with a non-de-vendored Ruby, rebuilding a base
-set of Ruby packages using a production build, and finally, a comprehensive
-rebuild of all existing Ruby-dependent packages in the correct sequence.
+To transition to a new language version of Ruby like 3.2 to 3.3, the process
+involves three main phases: initial bootstrapping with a non-de-vendored Ruby,
+rebuilding a base set of Ruby packages using a production build, and finally, a
+comprehensive rebuild of all existing Ruby-dependent packages in the correct
+sequence.
 
 ### bundled gem compatibility
 
 A list of compatible bundled gem versions for packaging can be found at
 <https://stdgems.org>. The de-vendored packages should make sure to be
-compatible to the major ruby version.
+compatible to the ruby version.
 
 ### bootstrap packages
 
@@ -25,7 +26,7 @@ functional.
 
 Build the following packages in the given order:
 
-- ruby `bootstrap=1 pkgrel=0`
+- ruby `_bootstrap=1 pkgrel=0`
 - rubygems `--nocheck`
 - ruby-rake
 - ruby-hoe
@@ -48,7 +49,7 @@ necessary for the broader Ruby ecosystem.
 
 Build the following packages in the given order:
 
-- ruby `bootstrap=0`
+- ruby `_bootstrap=0`
 - rubygems
 - ruby-rake
 - ruby-bundler
@@ -77,7 +78,7 @@ Build the following packages in the given order:
 
 ### rebuild all packages
 
-The final step in upgrading to a new major version of Ruby is the comprehensive
+The final step in upgrading to a new language version of Ruby is the comprehensive
 rebuild of all existing packages that depend on Ruby, in their appropriate
 sequential order. This step is critical to ensure that all applications and
 libraries are compatible with the new Ruby version. This rebuild must be
