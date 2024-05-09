@@ -10,15 +10,17 @@
 
 pkgname=(
   ruby
-  ruby-bundledgems
   ruby-docs
+  ruby-default-gems
+  ruby-bundled-gems
+  ruby-stdlib
 )
 pkgver=3.2.4
 pkgrel=0
 pkgdesc='An object-oriented language for quick and easy programming'
 url='https://www.ruby-lang.org/en/'
 arch=(x86_64)
-license=('BSD' 'custom')
+license=(BSD-2-Clause)
 makedepends=(
   doxygen
   gdbm
@@ -72,6 +74,74 @@ _bundled_gems_bins=(
   rbs
   rdbg
   typeprof
+)
+_default_gems=(
+  abbrev
+  base64
+  benchmark
+  bigdecimal
+  cgi
+  csv
+  date
+  delegate
+  did_you_mean
+  digest
+  drb
+  english
+  error_highlight
+  etc
+  fcntl
+  fiddle
+  fileutils
+  find
+  forwardable
+  getoptlong
+  io-console
+  io-nonblock
+  io-wait
+  ipaddr
+  json
+  logger
+  mutex_m
+  net-http
+  net-protocol
+  nkf
+  observer
+  open-uri
+  open3
+  openssl
+  optparse
+  ostruct
+  pathname
+  pp
+  prettyprint
+  pstore
+  psych
+  readline
+  readline-ext
+  reline
+  resolv
+  resolv-replace
+  rinda
+  ruby2_keywords
+  securerandom
+  set
+  shellwords
+  singleton
+  stringio
+  strscan
+  syntax_suggest
+  syslog
+  tempfile
+  time
+  timeout
+  tmpdir
+  tsort
+  un
+  uri
+  weakref
+  yaml
+  zlib
 )
 _default_tool_gems=(
   bundler
@@ -145,52 +215,15 @@ package_ruby() {
   )
   optdepends=(
     'tk: for Ruby/TK'
-    'ruby-doc: Documentation for Ruby'
-    'ruby-bundledgems: Bundled gems which are part of Ruby StdLib'
-  )
-  replaces=(
-    ruby-stdlib
-
-    ruby-abbrev
-    ruby-base64
-    ruby-benchmark
-    ruby-bigdecimal
-    ruby-cgi
-    ruby-csv
-    ruby-date
-    ruby-delegate
-    ruby-did_you_mean
-    ruby-digest
-    ruby-drb
-    ruby-english
-    ruby-etc
-    ruby-fcntl
-    ruby-fiddle
-    ruby-fileutils
-    ruby-find
-    ruby-forwardable
-    ruby-getoptlong
-    ruby-io-console
-    ruby-io-nonblock
-    ruby-io-wait
-    ruby-ipaddr
-    ruby-json
-    ruby-logger
-    ruby-mutex_m
-    ruby-net-http
-    ruby-open-uri
-    ruby-psych
-    ruby-reline
-    ruby-ruby2_keywords
-    ruby-set
-    ruby-stringio
-    ruby-time
-    ruby-tmpdir
-    ruby-uri
+    'ruby-docs: Documentation for Ruby'
+    'ruby-default-gems: Default gems which are part of Ruby StdLib'
+    'ruby-bundled-gems: Bundled gems which are part of Ruby StdLib'
+    'ruby-stdlib: Full Ruby StdLib including default gems, bundled gems and tools'
   )
   provides=(
     libruby.so
-
+  )
+  replaces=(
     ruby-abbrev
     ruby-base64
     ruby-benchmark
@@ -203,7 +236,6 @@ package_ruby() {
     ruby-digest
     ruby-drb
     ruby-english
-    ruby-error_highlight
     ruby-etc
     ruby-fcntl
     ruby-fiddle
@@ -219,45 +251,17 @@ package_ruby() {
     ruby-logger
     ruby-mutex_m
     ruby-net-http
-    ruby-net-protocol
-    ruby-nkf
-    ruby-observer
     ruby-open-uri
-    ruby-open3
-    ruby-openssl
-    ruby-optparse
-    ruby-ostruct
-    ruby-pathname
-    ruby-pp
-    ruby-prettyprint
-    ruby-pstore
     ruby-psych
-    ruby-readline
-    ruby-readline-ext
     ruby-reline
-    ruby-resolv
-    ruby-resolv-replace
-    ruby-rinda
     ruby-ruby2_keywords
-    ruby-securerandom
     ruby-set
-    ruby-shellwords
-    ruby-singleton
     ruby-stringio
-    ruby-strscan
-    ruby-syntax_suggest
-    ruby-syslog
-    ruby-tempfile
     ruby-time
-    ruby-timeout
     ruby-tmpdir
-    ruby-tsort
-    ruby-un
     ruby-uri
-    ruby-weakref
-    ruby-yaml
-    ruby-zlib
   )
+  provides+=("${_default_gems[@]/#/ruby-}")
 
   cd "ruby-${pkgver}"
 
@@ -326,16 +330,27 @@ _remove_default_tool_gems() {
 }
 
 package_ruby-docs() {
-  pkgdesc='Documentation files for ruby'
+  pkgdesc='Documentation files for Ruby'
 
   cd "ruby-${pkgver}"
   make DESTDIR="${pkgdir}" install-doc install-capi
   install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
 }
 
-package_ruby-bundledgems() {
+package_ruby-bundled-gems() {
   pkgdesc='Bundled gems which are part of Ruby StdLib'
+  replaces=(ruby-bundledgems)
   depends=("${_bundled_gems[@]/#/ruby-}")
+}
+
+package_ruby-default-gems() {
+  pkgdesc='Default gems which are part of Ruby StdLib'
+  depends=("${_default_tool_gems[@]/#/ruby-}")
+}
+
+package_ruby-stdlib() {
+  pkgdesc='Full Ruby StdLib including default gems, bundled gems and tools'
+  depends=(ruby-default-gems ruby-bundled-gems)
 }
 
 # vim: tabstop=2 shiftwidth=2 expandtab:
