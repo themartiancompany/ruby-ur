@@ -277,8 +277,10 @@ package_ruby() {
   # bootstrap switch
   if (( _bootstrap )); then
     # provide everything for a bootstrap build
-    provides+=("${_default_tool_gems[@]/#/ruby-}" rubygems)
-    provides+=("${_bundled_gems[@]/#/ruby-}")
+    # use a reference to provides to srcinfo generation isn't confused
+    declare -n bootstrap_provides=provides
+    bootstrap_provides+=("${_default_tool_gems[@]/#/ruby-}" rubygems)
+    bootstrap_provides+=("${_bundled_gems[@]/#/ruby-}")
   else
     # remove de-vendored parts
     _remove_default_tool_gems
