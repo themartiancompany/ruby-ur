@@ -8,6 +8,7 @@ pkgbase = ruby
 	checkdepends = inetutils
 	checkdepends = procps-ng
 	makedepends = doxygen
+	makedepends = gcc-libs
 	makedepends = gdbm
 	makedepends = glibc
 	makedepends = gmp
@@ -29,6 +30,7 @@ pkgbase = ruby
 	b2sums = 1ee662e57f9f29b4ab29b391b38b988a8b5c199e62c815353c3a47e6eceea910344c7d9a00512916e05b6404efddf941313dfdcb0bec027f7f668443309228b9
 
 pkgname = ruby
+	depends = gcc-libs
 	depends = gdbm
 	depends = glibc
 	depends = gmp

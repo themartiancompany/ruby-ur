@@ -23,6 +23,7 @@ arch=(x86_64)
 license=(BSD-2-Clause)
 makedepends=(
   doxygen
+  gcc-libs
   gdbm
   glibc
   gmp
@@ -50,7 +51,7 @@ sha512sums=('fb0af37be4b6ad7b98ab9f8a508952238ee68b5828e3926331e4db52e2ebc1e6046
 b2sums=('9c2300a958b03528d51f0d74a069c8c538ca4009835d55377509a000bcfb43893a8a80d8fda57011e77c72e6283cb259281d5ba7b37444546e49f2a9ad515cf3'
         '1ee662e57f9f29b4ab29b391b38b988a8b5c199e62c815353c3a47e6eceea910344c7d9a00512916e05b6404efddf941313dfdcb0bec027f7f668443309228b9')
 
-_bootstrap=0
+_bootstrap=1
 _rubyver="${pkgver:0:3}.0"
 _bundled_gems=(
   debug
@@ -203,6 +204,7 @@ check() {
 
 package_ruby() {
   depends=(
+    gcc-libs
     gdbm
     glibc
     gmp
@@ -343,16 +345,25 @@ package_ruby-bundled-gems() {
   pkgdesc='Bundled gems which are part of Ruby StdLib'
   replaces=(ruby-bundledgems)
   depends=("${_bundled_gems[@]/#/ruby-}")
+
+  cd "ruby-${pkgver}"
+  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
 }
 
 package_ruby-default-gems() {
   pkgdesc='Default gems which are part of Ruby StdLib'
   depends=("${_default_tool_gems[@]/#/ruby-}")
+
+  cd "ruby-${pkgver}"
+  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
 }
 
 package_ruby-stdlib() {
   pkgdesc='Full Ruby StdLib including default gems, bundled gems and tools'
   depends=(ruby-default-gems ruby-bundled-gems)
+
+  cd "ruby-${pkgver}"
+  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
 }
 
 # vim: tabstop=2 shiftwidth=2 expandtab:
