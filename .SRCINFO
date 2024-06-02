@@ -1,7 +1,7 @@
 pkgbase = ruby
 	pkgdesc = An object-oriented language for quick and easy programming
 	pkgver = 3.2.4
-	pkgrel = 0.1
+	pkgrel = 1
 	url = https://www.ruby-lang.org/en/
 	arch = x86_64
 	license = BSD-2-Clause
@@ -113,6 +113,7 @@ pkgname = ruby
 	provides = ruby-weakref
 	provides = ruby-yaml
 	provides = ruby-zlib
+	conflicts = 
 	replaces = ruby-abbrev
 	replaces = ruby-base64
 	replaces = ruby-benchmark
@@ -179,6 +180,7 @@ pkgname = ruby-bundled-gems
 	depends = ruby-rss
 	depends = ruby-test-unit
 	depends = ruby-typeprof
+	conflicts = ruby-bundledgems
 	replaces = ruby-bundledgems
 
 pkgname = ruby-stdlib
