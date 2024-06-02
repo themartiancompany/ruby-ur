@@ -55,6 +55,7 @@ Build the following packages in the given order:
 - ruby-bundler
 - ruby-webrick
 - ruby-rake-compiler
+- ruby-test-unit-ruby-core
 - ruby-erb
 - ruby-power_assert
 - ruby-test-unit
