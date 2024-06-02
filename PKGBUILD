@@ -16,7 +16,7 @@ pkgname=(
   ruby-stdlib
 )
 pkgver=3.2.4
-pkgrel=0
+pkgrel=0.1
 pkgdesc='An object-oriented language for quick and easy programming'
 url='https://www.ruby-lang.org/en/'
 arch=(x86_64)
@@ -283,6 +283,9 @@ package_ruby() {
     declare -n bootstrap_provides=provides
     bootstrap_provides+=("${_default_tool_gems[@]/#/ruby-}" rubygems)
     bootstrap_provides+=("${_bundled_gems[@]/#/ruby-}")
+    declare -n bootstrap_conflicts=conflicts
+    bootstrap_conflicts+=("${_default_tool_gems[@]/#/ruby-}" rubygems)
+    bootstrap_conflicts+=("${_bundled_gems[@]/#/ruby-}")
   else
     # remove de-vendored parts
     _remove_default_tool_gems
