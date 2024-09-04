@@ -176,6 +176,7 @@ build() {
     --with-dbm-type=gdbm_compat
 
   make
+  make rdoc capi
 }
 
 check() {
