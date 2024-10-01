@@ -1,7 +1,7 @@
 pkgbase = ruby
 	pkgdesc = An object-oriented language for quick and easy programming
 	pkgver = 3.3.5
-	pkgrel = 0
+	pkgrel = 1
 	url = https://www.ruby-lang.org/en/
 	arch = x86_64
 	license = BSD-2-Clause
@@ -156,7 +156,6 @@ pkgname = ruby-default-gems
 	depends = ruby-bundler
 	depends = ruby-erb
 	depends = ruby-irb
-	depends = ruby-racc
 	depends = ruby-rdoc
 	depends = ruby-rubygems
 
@@ -171,6 +170,7 @@ pkgname = ruby-bundled-gems
 	depends = ruby-net-smtp
 	depends = ruby-power_assert
 	depends = ruby-prime
+	depends = ruby-racc
 	depends = ruby-rake
 	depends = ruby-rbs
 	depends = ruby-rexml

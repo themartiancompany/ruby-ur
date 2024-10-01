@@ -16,7 +16,7 @@ pkgname=(
   ruby-stdlib
 )
 pkgver=3.3.5
-pkgrel=0
+pkgrel=1
 pkgdesc='An object-oriented language for quick and easy programming'
 url='https://www.ruby-lang.org/en/'
 arch=(x86_64)
@@ -46,7 +46,7 @@ source=("https://cache.ruby-lang.org/pub/ruby/${pkgver:0:3}/ruby-${pkgver}.tar.x
 sha512sums=('dd5c6a7f74854e143e0ca46b9d7c0d1983fc4886f5f733cd108345dbf4b21f61ad978ad6806e05a57b7af28fd9216dd38d7145808188bbb3695a7f3a4eda3883')
 b2sums=('4fa242ceeaf0dbf0d048b3f116f149f299c1a0ccca500a47929344da523cd3c49365381777e56546fe94003ee90ccc1f2cc957697eb82cd8beb7311b0b00287c')
 
-_bootstrap=1
+_bootstrap=0
 _rubyver="${pkgver:0:3}.0"
 _bundled_gems=(
   debug
@@ -58,6 +58,7 @@ _bundled_gems=(
   net-smtp
   power_assert
   prime
+  racc
   rake
   rbs
   rexml
@@ -66,6 +67,7 @@ _bundled_gems=(
   typeprof
 )
 _bundled_gems_bins=(
+  racc
   rake
   rbs
   rdbg
@@ -143,7 +145,6 @@ _default_tool_gems=(
   bundler
   erb
   irb
-  racc
   rdoc
   rubygems
 )
@@ -153,7 +154,6 @@ _default_tool_gems_bins=(
   erb
   gem
   irb
-  racc
   rdoc
   ri
 )
