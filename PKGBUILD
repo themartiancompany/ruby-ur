@@ -16,7 +16,7 @@ pkgname=(
   ruby-stdlib
 )
 pkgver=3.3.5
-pkgrel=1
+pkgrel=2
 pkgdesc='An object-oriented language for quick and easy programming'
 url='https://www.ruby-lang.org/en/'
 arch=(x86_64)
@@ -298,6 +298,7 @@ _remove_bundled_gems() {
   done
   for bin in "${_bundled_gems_bins[@]}"; do
     rm --recursive --verbose "${pkgdir}/usr/bin/${bin}"
+    rm --recursive --verbose --force "${pkgdir}/usr/bin/${bin}.lock"
     rm --recursive --verbose --force "${pkgdir}/usr/share/man/man1/${bin}.1"
   done
 
@@ -320,6 +321,7 @@ _remove_default_tool_gems() {
   done
   for bin in "${_default_tool_gems_bins[@]}"; do
     rm --recursive --verbose "${pkgdir}/usr/bin/${bin}"
+    rm --recursive --verbose --force "${pkgdir}/usr/bin/${bin}.lock"
     rm --recursive --verbose --force "${pkgdir}/usr/share/man/man1/${bin}.1"
   done
 }
