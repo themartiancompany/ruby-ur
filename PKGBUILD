@@ -16,7 +16,7 @@ pkgname=(
   ruby-stdlib
 )
 pkgver=3.4.2
-pkgrel=1
+pkgrel=2
 pkgdesc='An object-oriented language for quick and easy programming'
 url='https://www.ruby-lang.org/en/'
 arch=(x86_64)
@@ -45,7 +45,7 @@ source=("https://cache.ruby-lang.org/pub/ruby/${pkgver:0:3}/ruby-${pkgver}.tar.x
 sha512sums=('cb8b5023bce316393716548c5f0a44c7d0240724ff79b995517641266af30bedc6f402c1c8fa27368ea607e2aa6d36bbb201e00c6e9dd2a80d837431d32343b5')
 b2sums=('b0054a6f2db9cd6d5c92550b25ddaf131d0f83e33765bcf38e9ffbfcfac090828563f622e7e786467f55e2ac5a9d9779e07ad7942b0e33c9a394d67e4420f0ea')
 
-_bootstrap=1
+_bootstrap=0
 _rubyver="${pkgver:0:3}.0"
 _bundled_gems=(
   abbrev
