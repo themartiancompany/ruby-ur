@@ -1,0 +1,8 @@
+/pkg/
+/src/
+PKGBUILD-*.log
+ruby-*.log
+ruby-*.patch
+ruby-*.tar.xz
+ruby-*.tar.xz.part
+ruby-*.tar.zst
