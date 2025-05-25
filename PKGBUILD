@@ -16,7 +16,7 @@ pkgname=(
   ruby-stdlib
 )
 pkgver=3.4.4
-pkgrel=1
+pkgrel=2
 pkgdesc='An object-oriented language for quick and easy programming'
 url='https://www.ruby-lang.org/en/'
 arch=(x86_64)
@@ -157,6 +157,12 @@ _default_tool_gems_bins=(
   rdoc
   ri
 )
+
+prepare() {
+  cd "ruby-${pkgver}"
+
+  autoreconf -fiv
+}
 
 build() {
   cd "ruby-${pkgver}"
