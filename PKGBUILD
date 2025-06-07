@@ -94,6 +94,7 @@ arch=(
 license=(
   'BSD-2-Clause'
 )
+depends=()
 makedepends=(
   'doxygen'
   "${_libc}"
