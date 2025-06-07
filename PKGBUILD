@@ -58,20 +58,26 @@ _os="$( \
   uname \
     -o)"
 if [[ "${_os}" == "Android" ]]; then
+  _docs="false"
   _libc="ndk-sysroot"
   _libcompiler="libllvm"
 elif [[ "${_os}" == "GNU/Linux" ]]; then
+  _docs="true"
   _libc="glibc"
   _libcompiler="gcc-libs"
 fi
 _pkg=ruby
 pkgname=(
   "${_pkg}"
-  "${_pkg}-docs"
   "${_pkg}-default-gems"
   "${_pkg}-bundled-gems"
   "${_pkg}-stdlib"
 )
+if [[ "${_docs}" == "true" ]]; then
+  pkgname+=(
+    "${_pkg}-docs"
+  )
+fi
 pkgver="3.4.4"
 pkgrel="2"
 _pkgdesc=(
@@ -96,7 +102,6 @@ license=(
 )
 depends=()
 makedepends=(
-  'doxygen'
   "${_libc}"
   "${_libcompiler}"
   'gdbm'
@@ -111,6 +116,11 @@ makedepends=(
   'tk'
   'zlib'
 )
+if [[ "${_docs}" == "true" ]]; then
+  makedepends+=(
+    "doxygen"
+  )
+fi
 checkdepends=(
   'procps-ng'
 )
