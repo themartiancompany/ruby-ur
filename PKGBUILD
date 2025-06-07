@@ -57,14 +57,18 @@
 _os="$( \
   uname \
     -o)"
+if [[ ! -v "_docs" ]]; then
+  _docs="true"
+fi
 if [[ "${_os}" == "Android" ]]; then
   _docs="false"
   _libc="ndk-sysroot"
   _libcompiler="libllvm"
+  _gmp="libgmp"
 elif [[ "${_os}" == "GNU/Linux" ]]; then
-  _docs="true"
   _libc="glibc"
   _libcompiler="gcc-libs"
+  _gmp="gmp"
 fi
 _pkg=ruby
 pkgname=(
@@ -105,7 +109,7 @@ makedepends=(
   "${_libc}"
   "${_libcompiler}"
   'gdbm'
-  'gmp'
+  "${_gmp}"
   'graphviz'
   'libffi'
   'libxcrypt'
