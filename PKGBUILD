@@ -448,58 +448,126 @@ _remove_bundled_gems() {
 
 # remove default tool gems - they are provided as dedicated packages
 _remove_default_tool_gems() {
-  local gem bin
+  local \
+    gem \
+    bin
   for gem in "${_default_tool_gems[@]}"; do
-    msg2 "removing default gem ${gem}"
-    rm --recursive --verbose \
-      "${pkgdir}/usr/lib/ruby/${_rubyver}/${gem}"*
+    msg2 \
+      "Removing default gem ${gem}."
+    rm \
+      -rv \
+      "${pkgdir}/usr/lib/${_pkg}/${_rubyver}/${gem}"*
     if [[ ${gem} != rubygems ]]; then
-      rm --recursive --verbose \
-        "${pkgdir}/usr/lib/ruby/gems/${_rubyver}/gems/${gem}"-* \
-        "${pkgdir}/usr/lib/ruby/gems/${_rubyver}/specifications/default/${gem}"-*.gemspec
+      rm \
+        -rv \
+        "${pkgdir}/usr/lib/${_pkg}/gems/${_rubyver}/gems/${gem}-"* \
+        "${pkgdir}/usr/lib/${_pkg}/gems/${_rubyver}/specifications/default/${gem}-"*".gemspec"
     fi
-    rm --recursive --verbose --force \
-      "${pkgdir}/usr/lib/ruby/${_rubyver}"/*-linux/"${gem}"
+    rm \
+      -rvf \
+      "${pkgdir}/usr/lib/ruby/${_rubyver}/"*"-linux/${gem}"
   done
   for bin in "${_default_tool_gems_bins[@]}"; do
-    rm --recursive --verbose "${pkgdir}/usr/bin/${bin}"
-    rm --recursive --verbose --force "${pkgdir}/usr/bin/${bin}.lock"
-    rm --recursive --verbose --force "${pkgdir}/usr/share/man/man1/${bin}.1"
+    rm \
+      -rv \
+      "${pkgdir}/usr/bin/${bin}"
+    rm \
+      -rvf \
+      "${pkgdir}/usr/bin/${bin}.lock"
+    rm \
+      -rvf \
+      "${pkgdir}/usr/share/man/man1/${bin}.1"
   done
 }
 
 package_ruby-docs() {
-  pkgdesc='Documentation files for Ruby'
-
-  cd "ruby-${pkgver}"
-  make DESTDIR="${pkgdir}" install-doc install-capi
-  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
+  local \
+    _pkgdesc=()
+  _pkgdesc=(
+    'Documentation files for Ruby.'
+  )
+  pkgdesc="${_pkgdesc[*]}"
+  cd \
+    "${_tarname}"
+  make \
+    DESTDIR="${pkgdir}" \
+    install-doc \
+    install-capi
+  install \
+    -vDm0644 \
+    "BSDL" \
+    "COPYING" \
+    -t \
+    "${pkgdir}/usr/share/licenses/${pkgname}"
 }
 
 package_ruby-bundled-gems() {
-  pkgdesc='Bundled gems which are part of Ruby StdLib'
-  replaces=(ruby-bundledgems)
-  conflicts=(ruby-bundledgems)
-  depends=("${_bundled_gems[@]/#/ruby-}")
-
-  cd "ruby-${pkgver}"
-  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
+  local \
+    _pkgdesc=()
+  _pkgdesc=(
+    'Bundled gems which are part of Ruby StdLib.'
+  )
+  pkgdesc="${_pkgdesc[*]}"
+  replaces=(
+    "${_pkg}-bundledgems"
+  )
+  conflicts=(
+    "${_pkg}-bundledgems"
+  )
+  depends=(
+    "${_bundled_gems[@]/#/ruby-}"
+  )
+  cd \
+    "${_tarname}"
+  install \
+    -vDm0644 \
+    "BSDL" \
+    "COPYING" \
+    -t \
+    "${pkgdir}/usr/share/licenses/${pkgname}"
 }
 
 package_ruby-default-gems() {
-  pkgdesc='Default gems which are part of Ruby StdLib'
-  depends=("${_default_tool_gems[@]/#/ruby-}")
-
-  cd "ruby-${pkgver}"
-  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
+  local \
+    _pkgdesc=()
+  _pkgdesc=(
+    'Default gems which are part of Ruby StdLib.'
+  )
+  pkgdesc="${_pkgdesc[*]}"
+  depends=(
+    "${_default_tool_gems[@]/#/ruby-}"
+  )
+  cd \
+    "${_tarname}"
+  install \
+    -vDm0644 \
+    "BSDL" \
+    "COPYING" \
+    -t \
+    "${pkgdir}/usr/share/licenses/${pkgname}"
 }
 
 package_ruby-stdlib() {
-  pkgdesc='Full Ruby StdLib including default gems, bundled gems and tools'
-  depends=(ruby-default-gems ruby-bundled-gems)
-
-  cd "ruby-${pkgver}"
-  install --verbose -D --mode=0644 BSDL COPYING --target-directory "${pkgdir}/usr/share/licenses/${pkgname}"
+  local \
+    _pkgdesc=()
+  _pkgdesc=(
+    'Full Ruby StdLib including'
+    'default gems, bundled gems'
+    'and tools.'
+  )
+  pkgdesc="${_pkgdesc[*]}"
+  depends=(
+    "${_pkg}-default-gems"
+    "${_pkg}-bundled-gems"
+  )
+  cd \
+    "${_tarname}"
+  install \
+    -vDm0644 \
+    "BSDL" \
+    "COPYING" \
+    -t \
+    "${pkgdir}/usr/share/licenses/${pkgname}"
 }
 
 # vim: tabstop=2 shiftwidth=2 expandtab:
