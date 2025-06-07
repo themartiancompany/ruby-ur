@@ -1,104 +1,30 @@
-# Ruby Packaging
+[comment]: <> (SPDX-License-Identifier: AGPL-3.0)
 
-## Bootstrap
+[comment]: <> (-------------------------------------------------------------)
+[comment]: <> (Copyright © 2024, 2025  Pellegrino Prevete)
+[comment]: <> (All rights reserved)
+[comment]: <> (-------------------------------------------------------------)
 
-To transition to a new language version of Ruby like 3.2 to 3.3, the process
-involves three main phases: initial bootstrapping with a non-de-vendored Ruby,
-rebuilding a base set of Ruby packages using a production build, and finally, a
-comprehensive rebuild of all existing Ruby-dependent packages in the correct
-sequence.
+[comment]: <> (This program is free software: you can redistribute)
+[comment]: <> (it and/or modify it under the terms of the GNU Affero)
+[comment]: <> (General Public License as published by the Free)
+[comment]: <> (Software Foundation, either version 3 of the License.)
 
-### bundled gem compatibility
+[comment]: <> (This program is distributed in the hope that it will be useful,)
+[comment]: <> (but WITHOUT ANY WARRANTY; without even the implied warranty of)
+[comment]: <> (MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the)
+[comment]: <> (GNU Affero General Public License for more details.)
 
-A list of compatible bundled gem versions for packaging can be found at
-<https://stdgems.org>. The de-vendored packages should make sure to be
-compatible to the ruby version.
+[comment]: <> (You should have received a copy of the GNU Affero General Public)
+[comment]: <> (License along with this program.)
+[comment]: <> (If not, see <https://www.gnu.org/licenses/>.)
 
-### bootstrap packages
+# `ruby`
 
-The bootstrapping phase starts with the creation of a minimal set of bootstrap
-packages, crucially including a non-de-vendored version of Ruby. This step aims
-to establish a foundational Ruby environment that is capable of supporting the
-compilation and installation of more complex Ruby applications and libraries.
-It’s essential that this version of Ruby is non-de-vendored to ensure that all
-components required for further package dependencies are available and
-functional.
+universal recipe for
+[user repo](
+  https://github.com/themartiancompany/ur).
 
-Build the following packages in the given order:
+[PKGBUILD](PKGBUILD)
 
-- ruby `_bootstrap=1 pkgrel=0`
-- rubygems `--nocheck`
-- ruby-rake
-- ruby-hoe
-- ruby-kpeg
-- ruby-test-unit-ruby-core
-- ruby-rdoc
-- ruby-tracer
-- ruby-irb
-- ruby-power_assert `--nocheck`
-- ruby-test-unit
-- ruby-webrick
-- ruby-erb `--nocheck`
-
-### base set
-
-Following the initial setup, the next step involves the rebuilding of a
-specific chain of Ruby packages using a production build of Ruby. This
-production build should be a de-vendored version of Ruby, intended for
-deployment. The purpose of this phase is to compile a full base set of Ruby
-packages that are ready for consumption. This includes key libraries and tools
-necessary for the broader Ruby ecosystem.
-
-Build the following packages in the given order:
-
-- ruby `_bootstrap=0`
-- rubygems
-- ruby-rake
-- ruby-bundler
-- ruby-webrick
-- ruby-rake-compiler
-- ruby-test-unit-ruby-core
-- ruby-erb
-- ruby-power_assert
-- ruby-bigdecimal
-- ruby-csv
-- ruby-test-unit
-- ruby-diff-lcs `--nocheck`
-- ruby-rspec-support `--nocheck`
-- ruby-rspec-core
-- ruby-rspec-expectations
-- ruby-rspec-mocks
-- ruby-rspec
-- ruby-thread_order
-- ruby-childprocess
-- ruby-ffi
-- ruby-minitest
-- ruby-rspec-support
-- ruby-diff-lcs
-- ruby-rr `--nocheck`
-- ruby-test-unit-rr
-- ruby-rr
-- ruby-debug
-- ruby-tracer
-- ruby-irb
-- ruby-hoe
-- ruby-kpeg
-- ruby-racc
-- ruby-rdoc
-- ruby-typeprof
-
-### rebuild all packages
-
-The final step in upgrading to a new language version of Ruby is the comprehensive
-rebuild of all existing packages that depend on Ruby, in their appropriate
-sequential order. This step is critical to ensure that all applications and
-libraries are compatible with the new Ruby version. This rebuild must be
-carefully managed to maintain dependency integrity.
-
-- rebuild all packages in order
-
-#### command to find packages to rebuild
-
-```bash
-./build-rebuild-todo-list.sh <old_ruby_version>
-```
+[LICENSE](COPYING)
